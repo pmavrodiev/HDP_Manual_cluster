@@ -6,6 +6,7 @@
   remote_user: "{{first_user}}"
   roles:
     - base-repositories
+  tags: [base_repositories]
 
 
 - name: Provision cluster nodes with base packages
@@ -133,6 +134,14 @@
   remote_user: "{{first_user}}"
   roles:
     - start-zookeeper
+
+- name: Configure Hadoop
+  hosts: master
+  remote_user: "{{first_user}}"
+  roles:
+    - ansible-xml
+    - configure-hadoop
+  tags: [configure_hadoop]
 
 #- name: Stop Zookeeper
 #  hosts: all

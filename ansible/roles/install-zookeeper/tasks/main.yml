@@ -14,7 +14,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{ZOOKEEPER_DATA_DIR.split(' ')}}"
+      with_items: "{{ZOOKEEPER_DATA_DIR.split(',')}}"
       tags: [install_zookeeper]
 
     - name: Create Zookeeper log dir
@@ -26,7 +26,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{ZOOKEEPER_LOG_DIR.split(' ')}}"
+      with_items: "{{ZOOKEEPER_LOG_DIR.split(',')}}"
       tags: [install_zookeeper]
 
     - name: Create Zookeeper PID dir
@@ -38,6 +38,6 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{ZOOKEEPER_PID_DIR.split(' ')}}"
+      with_items: "{{ZOOKEEPER_PID_DIR.split(',')}}"
       tags: [install_zookeeper]
 

@@ -7,7 +7,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{HDFS_LOG_DIR.split(' ')}}"
+      with_items: "{{HDFS_LOG_DIR.split(',')}}"
       tags: [hadoop_create_hdfs_dirs]
 
     - name: Create HDFS diretory for storying the HDFS PID
@@ -19,6 +19,6 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{HDFS_PID_DIR.split(' ')}}"
+      with_items: "{{HDFS_PID_DIR.split(',')}}"
       tags: [hadoop_create_hdfs_dirs]
 

@@ -7,7 +7,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{YARN_LOCAL_DIR.split(' ')}}"
+      with_items: "{{YARN_LOCAL_DIR.split(',')}}"
       tags: [hadoop_create_yarn_dirs]
 
     - name: Create YARN directories for storing YARN logs
@@ -19,7 +19,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{YARN_LOG_DIR.split(' ')}}"
+      with_items: "{{YARN_LOG_DIR.split(',')}}"
       tags: [hadoop_create_yarn_dirs]
 
 
@@ -32,7 +32,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{YARN_LOCAL_LOG_DIR.split(' ')}}"
+      with_items: "{{YARN_LOCAL_LOG_DIR.split(',')}}"
       tags: [hadoop_create_yarn_dirs]
 
     - name: Create YARN directory for storing YARN PID
@@ -44,6 +44,6 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{YARN_PID_DIR.split(' ')}}"
+      with_items: "{{YARN_PID_DIR.split(',')}}"
       tags: [hadoop_create_yarn_dirs]
 

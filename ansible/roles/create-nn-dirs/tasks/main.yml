@@ -7,6 +7,6 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{DFS_NAME_DIR.split(' ')}}"
+      with_items: "{{DFS_NAME_DIR.split(',')}}"
 
       tags: [hadoop_create_nn_dirs]

@@ -1,0 +1,14 @@
+
+    - name: Configure core-site.xml
+      xml:
+        file=/home/vagrant/hdp_manual_install_rpm_helper_files-2.4.0.0.169/configuration_files/core_hadoop/core-site.xml
+        xpath="/configuration/property[name = 'fs.defaultFS']/value"
+        value='hdfs://local.master.com:8020'
+
+
+    - name: Configure hdfs-site.xml
+      xml:
+        file=/home/vagrant/hdp_manual_install_rpm_helper_files-2.4.0.0.169/configuration_files/core_hadoop/hdfs-site.xml
+        xpath="/configuration/property[name = 'dfs.namenode.name.dir']/value"
+        value={{ DFS_NAME_DIR }}
+

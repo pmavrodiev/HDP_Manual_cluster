@@ -7,7 +7,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{MAPRED_LOG_DIR.split(' ')}}"
+      with_items: "{{MAPRED_LOG_DIR.split(',')}}"
       tags: [hadoop_create_mapred_dirs]
 
     - name: Create directory for storing the JobHistory server PID
@@ -19,6 +19,6 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{MAPRED_PID_DIR.split(' ')}}"
+      with_items: "{{MAPRED_PID_DIR.split(',')}}"
       tags: [hadoop_create_mapred_dirs]
 

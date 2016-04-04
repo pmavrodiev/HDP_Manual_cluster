@@ -7,7 +7,7 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{ZKFC_LOG_DIR.split(' ')}}"
+      with_items: "{{ZKFC_LOG_DIR.split(',')}}"
       tags: [hadoop_create_zkfc_dirs]
 
     - name: Create ZKFC diretory for storying the ZKFC PID
@@ -19,6 +19,6 @@
         group=hadoop
         mode=0755
         recurse=yes
-      with_items: "{{ZKFC_PID_DIR.split(' ')}}"
+      with_items: "{{ZKFC_PID_DIR.split(',')}}"
       tags: [hadoop_create_zkfc_dirs]
 
