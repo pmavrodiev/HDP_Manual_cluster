@@ -1,0 +1,4 @@
+    - name: Run hdp-select
+      become: yes
+      shell: /usr/bin/hdp-select set all 2.4.0.0-169
+      tags: [hdp_select]

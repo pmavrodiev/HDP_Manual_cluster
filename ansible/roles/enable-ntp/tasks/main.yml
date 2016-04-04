@@ -1,0 +1,6 @@
+    - name: Start ntpd
+      become: yes
+      service:
+        name=ntpd
+        state=started
+      tags: [hdp_configuration]

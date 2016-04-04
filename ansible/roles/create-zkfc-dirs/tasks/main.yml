@@ -1,0 +1,24 @@
+    - name: Create ZKFC log directory
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=hdfs
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{ZKFC_LOG_DIR.split(' ')}}"
+      tags: [hadoop_create_zkfc_dirs]
+
+    - name: Create ZKFC diretory for storying the ZKFC PID
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=hdfs
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{ZKFC_PID_DIR.split(' ')}}"
+      tags: [hadoop_create_zkfc_dirs]
+

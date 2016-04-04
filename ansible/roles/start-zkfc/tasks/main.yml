@@ -1,0 +1,5 @@
+    - name: Starting zkfc
+      become: yes
+      become_user: hdfs
+      shell: bash -c "export JAVA_HOME={{JAVA_HOME}} ; export HADOOP_LOG_DIR={{ZKFC_LOG_DIR}} ; /usr/hdp/2.4.0.0-169/hadoop/sbin/hadoop-daemon.sh start zkfc"
+      tags: [start_zkfc]

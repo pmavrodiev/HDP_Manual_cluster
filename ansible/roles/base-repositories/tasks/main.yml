@@ -1,0 +1,33 @@
+    - name: Download EPEL repository
+      become: yes
+      get_url:
+        url=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+        dest=/tmp/epel-release-7-5.noarch.rpm
+      tags: [epelrepo]
+
+    - name: Add EPEL repository
+      become: yes
+      yum:
+        name: /tmp/epel-release-7-5.noarch.rpm
+        state: present
+      tags: [epelrepo]
+
+
+    - name: Add HDP repository
+      become: yes
+      get_url:
+        url=http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.4.0.0/hdp.repo
+        dest=/etc/yum.repos.d/hdp.repo
+      tags: [hdprepo]
+
+    - name: Update cache
+      become: yes
+      yum:
+        name=*
+        update_cache=yes
+      tags: [hdprepo]
+
+
+
+
+

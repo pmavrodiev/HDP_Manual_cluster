@@ -1,0 +1,74 @@
+    - name: Backup "{{ZOOKEEPER_CONF_DIR}}/zookeeper-env.sh" [1/2]
+      become: yes
+      stat: path="{{ZOOKEEPER_CONF_DIR}}/zookeeper-env.sh"
+      register: zookeeper_env_stat
+      tags: [prepare_zoo_conf]
+
+    - name: Backup "{{ZOOKEEPER_CONF_DIR}}/zookeeper-env.sh" [2/2]
+      become: yes
+      shell: mv "{{ZOOKEEPER_CONF_DIR}}/zookeeper-env.sh" "{{ZOOKEEPER_CONF_DIR}}/zookeeper-env.sh.back"
+      when: zookeeper_env_stat.stat.exists
+      tags: [prepare_zoo_conf]
+
+    - name: Edit "{{ZOOKEEPER_CONF_DIR}}/zookeeper-env.sh"
+      become: yes
+      blockinfile:
+        dest: "{{ZOOKEEPER_CONF_DIR}}/zookeeper-env.sh"
+        create: yes
+        block: |
+          export JAVA_HOME={{JAVA_HOME}}
+          export ZOOKEEPER_HOME={{ZOOKEEPER_HOME}}
+          export ZOO_LOG_DIR={{ZOOKEEPER_LOG_DIR}}
+          export ZOOPIDFILE={{ZOOKEEPER_PID_DIR}}/zookeeper_server.pid
+          export SERVER_JVMFLAGS=-Xmx512m
+          export JAVA=$JAVA_HOME/bin/java
+          export CLASSPATH=$CLASSPATH:$ZOOKEEPER_HOME/*
+      tags: [prepare_zoo_conf]
+
+########################
+
+    - name: Backup "{{ZOOKEEPER_CONF_DIR}}/zoo.cfg" [1/2]
+      become: yes
+      stat: path="{{ZOOKEEPER_CONF_DIR}}/zoo.cfg"
+      register: zoo_cfg_stat
+      tags: [prepare_zoo_conf]
+
+    - name: Backup "{{ZOOKEEPER_CONF_DIR}}/zoo.cfg" [2/2]
+      become: yes
+      shell: mv "{{ZOOKEEPER_CONF_DIR}}/zoo.cfg" "{{ZOOKEEPER_CONF_DIR}}/zoo.cfg.back"
+      when: zoo_cfg_stat.stat.exists
+      tags: [prepare_zoo_conf]
+
+    - name: Edit "{{ZOOKEEPER_CONF_DIR}}/zoo.cfg"
+      become: yes
+      blockinfile:
+        dest: "{{ZOOKEEPER_CONF_DIR}}/zoo.cfg"
+        create: yes
+        block: |
+          maxClientCnxns=10
+          # The number of milliseconds of each tick
+          tickTime=2000
+          # The number of ticks that the initial
+          # synchronization phase can take
+          initLimit=10
+          # The number of ticks that can pass between
+          # sending a request and getting an acknowledgement
+          syncLimit=5
+          # the directory where the snapshot is stored.
+          dataDir={{ ZOOKEEPER_DATA_DIR }}
+          # the port at which the clients will connect
+          clientPort=2181
+          server.1=local.master.com:2888:3888
+          server.2=local.slave1.com:2888:3888
+          server.3=local.slave2.com:2888:3888
+          server.4=local.slave3.com:2888:3888
+      tags: [prepare_zoo_conf]
+
+    - name: Change directory permissions
+      become: yes
+      shell: "{{ item }}"
+      with_items:
+       - "chmod a+x {{ZOOKEEPER_CONF_DIR}}"
+       - "chown -R zookeeper:hadoop {{ZOOKEEPER_CONF_DIR}}/../"
+       - "chmod -R 755 {{ZOOKEEPER_CONF_DIR}}/../"
+      tags: [prepare_zoo_conf]

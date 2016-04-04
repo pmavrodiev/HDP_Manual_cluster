@@ -1,0 +1,12 @@
+    - name: Create Namenode directories for the file system image
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=hdfs
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{DFS_NAME_DIR.split(' ')}}"
+
+      tags: [hadoop_create_nn_dirs]

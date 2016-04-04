@@ -1,0 +1,11 @@
+    - name: Create SecondaryNamenode directories for the checkpoint file system image
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=hdfs
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{FS_CHECKPOINT_DIR.split(' ')}}"
+      tags: [hadoop_create_snn_dirs]

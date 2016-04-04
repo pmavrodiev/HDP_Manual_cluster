@@ -1,0 +1,12 @@
+    - name: Create DataNode directories for storing HDFS blocks
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=hdfs
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{DFS_DATA_DIR.split(' ')}}"
+
+      tags: [hadoop_create_dns_dirs]

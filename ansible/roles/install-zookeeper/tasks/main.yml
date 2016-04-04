@@ -1,0 +1,43 @@
+    - name: Install Zookeeper
+      become: yes
+      yum:
+        name=zookeeper-server
+        state=latest
+      tags: [install_zookeeper]
+
+    - name: Create Zookeeper data dir
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=zookeeper
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{ZOOKEEPER_DATA_DIR.split(' ')}}"
+      tags: [install_zookeeper]
+
+    - name: Create Zookeeper log dir
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=zookeeper
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{ZOOKEEPER_LOG_DIR.split(' ')}}"
+      tags: [install_zookeeper]
+
+    - name: Create Zookeeper PID dir
+      become: yes
+      file:
+        path={{ item }}
+        state=directory
+        owner=zookeeper
+        group=hadoop
+        mode=0755
+        recurse=yes
+      with_items: "{{ZOOKEEPER_PID_DIR.split(' ')}}"
+      tags: [install_zookeeper]
+

@@ -1,0 +1,147 @@
+---
+
+
+- name: Add base repositories
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - base-repositories
+
+
+- name: Provision cluster nodes with base packages
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - base-packages
+
+- name: Install Java
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - install-openjdk
+
+- name: Advanced configuration
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - enable-ntp
+    - disable-selinux-iptables
+
+
+- name: HDP part
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - install-basehadoop
+
+- name: Create HDFS directories
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - create-hdfs-dirs
+
+- name: Create ZKFC directories
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - create-zkfc-dirs
+
+
+- name: Create Namenode directories
+  hosts: master
+  remote_user: "{{first_user}}"
+  roles:
+    - create-nn-dirs
+
+- name: Create SecondaryNamenode directories
+  hosts: slaves
+  remote_user: "{{first_user}}"
+  roles:
+    - create-snn-dirs
+
+- name: Create DataNode directories
+  hosts: slaves
+  remote_user: "{{first_user}}"
+  roles:
+    - create-dns-dirs
+
+- name: Create YARN directories
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - create-yarn-dirs
+
+- name: Create MAPRED directories
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - create-mapred-dirs
+
+
+- name: Run hdp-select
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - run-hdpselect
+
+- name: Install Zookeeper
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - install-zookeeper
+
+- name: Initialize the ZooKeeper data directories for master
+  hosts: master
+  remote_user: "{{first_user}}"
+  roles:
+    - init-zookeeper
+  vars:
+    znode_id: '1'
+
+- name: Initialize the ZooKeeper data directories for slave1
+  hosts: slave1
+  remote_user: "{{first_user}}"
+  roles:
+    - init-zookeeper
+  vars:
+    znode_id: '2'
+
+- name: Initialize the ZooKeeper data directories for slave2
+  hosts: slave2
+  remote_user: "{{first_user}}"
+  roles:
+    - init-zookeeper
+  vars:
+    znode_id: '3'
+
+- name: Initialize the ZooKeeper data directories for slave3
+  hosts: slave3
+  remote_user: "{{first_user}}"
+  roles:
+    - init-zookeeper
+  vars:
+    znode_id: '4'
+
+- name: Prepare Zookeeper configuration files
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - prepare-zoo-conf
+
+- name: Start Zookeeper
+  hosts: all
+  remote_user: "{{first_user}}"
+  roles:
+    - start-zookeeper
+
+#- name: Stop Zookeeper
+#  hosts: all
+#  remote_user: "{{first_user}}"
+#  roles:
+#    - stop-zookeeper
+
+# - name: Reboot
+#  hosts: all
+#  remote_user: "{{first_user}}"
+#  roles:
+#    - reboot

@@ -1,0 +1,4 @@
+    - name: Reboot
+      become: yes
+      shell: /sbin/reboot
+      tags: [reboot]

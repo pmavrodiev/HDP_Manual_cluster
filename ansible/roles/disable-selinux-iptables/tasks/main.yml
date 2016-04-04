@@ -1,0 +1,12 @@
+    - name: Disable SElinux
+      become: yes
+      selinux:
+        state=disabled
+      tags: [hdp_configuration]
+
+    - name: Disable iptables
+      become: yes
+      service:
+        name=firewalld
+        state=stopped
+      tags: [hdp_configuration]

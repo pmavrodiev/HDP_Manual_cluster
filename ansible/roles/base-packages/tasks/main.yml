@@ -1,0 +1,23 @@
+    - name: Upgrade all packages
+      become: yes
+      yum:
+        update_cache=yes
+        name=*
+        state=latest
+      tags: [system_upgrade]
+
+    - name: Install base packages
+      become: yes
+      yum:
+        name={{ item }}
+        state=latest
+      with_items:
+        - rpm
+        - wget
+        - net-tools
+        - yum-utils
+        - unzip
+        - createrepo
+        - ntp
+        - libselinux-python
+      tags: [base_packages]
