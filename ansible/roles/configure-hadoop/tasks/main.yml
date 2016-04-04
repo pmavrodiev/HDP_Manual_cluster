@@ -6,9 +6,20 @@
         value='hdfs://local.master.com:8020'
 
 
-    - name: Configure hdfs-site.xml
+    - name: Configure hdfs-site.xml [1/2]
       xml:
         file=/home/vagrant/hdp_manual_install_rpm_helper_files-2.4.0.0.169/configuration_files/core_hadoop/hdfs-site.xml
         xpath="/configuration/property[name = 'dfs.namenode.name.dir']/value"
         value={{ DFS_NAME_DIR }}
+
+    - name: Set fact
+      set_fact:
+        longfact: "{{ longfact | '' }},file://{{ item }}"
+      with_items: "{{DFS_DATA_DIR.split(',')}}"
+
+    - name: Configure hdfs-site.xml [2/2]
+      xml:
+        file=/home/vagrant/hdp_manual_install_rpm_helper_files-2.4.0.0.169/configuration_files/core_hadoop/hdfs-site.xml
+        xpath="/configuration/property[name = 'dfs.datanode.data.dir']/value"
+        value={{longfact}}
 
